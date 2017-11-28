@@ -1,0 +1,15 @@
+@(User: List[User], userForm: Form[User])
+@* 引数の受け取り *@
+@import helper._
+
+@main("Registration") {
+
+    <h2>新規会員登録</h2>
+
+    @form(routes.Registration.createUser()) {
+        @inputText(userForm("userName"),'_label -> "名前")
+        @inputText(userForm("password"),'_label -> "パスワード")
+        @inputText(userForm("mail"),'_label -> "メールアドレス")
+        <input type="submit" value="作成">
+    }
+}

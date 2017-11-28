@@ -1,0 +1,92 @@
+@(Travel_box: List[Travel_box], travelForm: Form[Travel_box], title: String, disForm: Form[Distance])
+@* 引数の受け取り *@
+@import helper._
+
+@main("Travel list") {
+
+	<p>
+	@form(routes.Application.createTitle()){
+		タイトル:<input type="text" name="distanceTitle" value="@title" />
+		<input type="submit" value="create">
+	}
+	</p>
+
+	@if(Travel_box.size() != 0){
+   		@for(box <- Travel_box) {
+   		<table border>
+   			@form(routes.Application.editTravel_box(box.id)) {
+   			<tr>
+   				<td>
+   					日付
+   				</td>
+				<td>
+					<input type="text" name="date" value="@box.date" />
+				</td>
+   			</tr>
+   			<tr>
+   				<td>
+   					タイトル
+   				</td>
+   				<td>
+   					<input type="text" name="title" value="@box.title" />
+   				</td>
+   			</tr>
+   			<tr>
+   				<td>
+   					開始時間
+   				</td>
+   				<td>
+   					<input type="text" name="start_time" value="@box.start_time" />
+   				</td>
+   			</tr>
+   			<tr>
+   				<td>
+   					終了時間
+   				</td>
+   				<td>
+   					<input type="text" name="end_time" value="@box.end_time" />
+   				</td>
+   			</tr>
+   			<tr>
+   				<td>
+   					場所
+   				</td>
+   				<td>
+   					<input type="text" name="place" value="@box.place" />
+   				</td>
+   			</tr>
+   			</table>
+   			<input type="submit" value="更新">
+   			}
+			@form(routes.Application.deleteTravel_box(box.id)) {
+				<input type="submit" value="削除">
+			}
+
+            <p>↓</p>
+        }
+    	<h2>end</h2>
+
+    	@if(session.get("historyId") == null){
+    		@form(routes.Application.travelCreate()){
+	    		<input type="submit" value="作成">
+	    	}
+    	} else {
+    		@form(routes.Mydata.clear()){
+	    		<input type="submit" value="更新">
+	    	}
+    	}
+
+    }
+
+    <h2>Add a new Travel</h2>
+
+    @form(routes.Application.boxCreate()) {
+		@inputText(travelForm("date"))
+        @inputText(travelForm("title"))
+        @inputText(travelForm("start_time"))
+        @inputText(travelForm("end_time"))
+		@inputText(travelForm("place"))
+        <input type="submit" value="Create">
+        @* 作成ボタン *@
+    }
+}

@@ -1,0 +1,133 @@
+@(Travel_box: List[Travel_box], distance: List[Distance], tweet: List[String])
+@* 引数の受け取り *@
+@import helper._
+
+@main("Travel list") {
+
+	<script>
+      function initialize() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 15,
+        });
+        var geocoder = new google.maps.Geocoder();
+        var address = document.getElementById( 'place' ).title;
+        geocoder.geocode({'address': address}, function(results, status) {
+          if (status === 'OK') {
+            map.setCenter(results[0].geometry.location);
+            var marker = new google.maps.Marker({
+              map: map,
+              position: results[0].geometry.location
+            });
+          } else {
+            alert('Geocode was not successful for the following reason: ' + status);
+          }
+        });
+        document.getElementById('submit').addEventListener('click', function() {
+            geocodeAddress(geocoder, map);
+          });
+      }
+
+      function geocodeAddress(geocoder, resultsMap) {
+          var address = document.getElementById('address').value;
+          geocoder.geocode({'address': address}, function(results, status) {
+            if (status === 'OK') {
+              resultsMap.setCenter(results[0].geometry.location);
+              var marker = new google.maps.Marker({
+                map: resultsMap,
+                position: results[0].geometry.location
+              });
+            } else {
+              alert('Geocode was not successful for the following reason: ' + status);
+            }
+          });
+      }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiPFZqkKTLp2UzALR01YvRikzqCO7oTAQ&callback=initMap">
+    </script>
+    <div id="place" title=@Travel_box.get(0).place></div>
+
+	<h2>@distance.get(0).distanceTitle</h2>
+
+	@if(Travel_box.size() != 0){
+   		@for(box <- Travel_box) {
+   		<table border>
+   			<tr>
+   				<td>
+   					日付
+   				</td>
+				<td>
+					@box.date
+				</td>
+   			</tr>
+   			<tr>
+   				<td>
+   					タイトル
+   				</td>
+   				<td>
+   					@box.title
+   				</td>
+   			</tr>
+   			<tr>
+   				<td>
+   					開始時間
+   				</td>
+   				<td>
+   					@box.start_time
+   				</td>
+   			</tr>
+   			<tr>
+   				<td>
+   					終了時間
+   				</td>
+   				<td>
+   					@box.end_time
+   				</td>
+   			</tr>
+   			<tr>
+   				<td>
+   					場所
+   				</td>
+   				<td>
+   					@box.place
+   				</td>
+   			</tr>
+   			</table>
+
+            <p>↓</p>
+        }
+    	<h2>end</h2>
+
+		<h2>twitter情報</h2>
+
+		@if(flash.get("sample") == null){
+			@form(routes.Mydata.myTravel(distance.get(0).distanceId)) {
+				<input name="key" type="text" Required >
+				<input type="submit" value="更新">
+			}
+		}
+
+
+		<div style="height:300px; width:500px; overflow-y:scroll;">
+			<table border=1>
+				<colgroup>
+			        <col style="width:33%;">
+			    </colgroup>
+					@for(tw <- tweet) {
+						<tr>
+							<td style="word-wrap:break-word;">
+								@tw
+							</td>
+						</tr>
+					}
+
+			</table>
+		</div>
+
+   		<div id="map" style="width: 320px; height: 300px;"></div>
+   		<div>
+   			<input id="address" type="text" value=@Travel_box.get(0).place>
+   			<input id="submit" type="button" value="更新">
+   		</div>
+    }
+}

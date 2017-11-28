@@ -1,0 +1,20 @@
+@(question: List[String], questionForm: Form[QuestionDTO])
+
+@import helper._
+
+@main("Question") {
+	<h1>お問い合わせ</h1>
+
+	@form(routes.Question.createQuestion()) {
+
+	    @inputText(questionForm("name"),'_label -> "お名前")
+	    @inputText(questionForm("mail"),'_label -> "メールアドレス")
+	    @textarea(questionForm("content"),'_label -> "ご要望")
+	    <input type="submit" value="送信">
+	}
+	<p>
+		@for(label <- question){
+			@label<br>
+		}
+	</p>
+}

@@ -1,0 +1,44 @@
+@(mydata: User, userForm: Form[User])
+@import helper._
+
+@main("Mydata") {
+
+
+    <h2>会員情報</h2>
+
+	<table border>
+		<tr>
+        	<td>名前</td>
+            <td>@mydata.userName</td>
+		</tr>
+		<tr>
+			<td>パスワード</td>
+			<td>@mydata.password</td>
+		</tr>
+		<tr>
+			<td>メールアドレス</td>
+			<td>@mydata.mail</td>
+		</tr>
+	</table>
+
+	<ul>
+		<li>
+			<div onclick="obj=document.getElementById('open').style; obj.display=(obj.display=='none')?'block':'none';">
+				<a style="cursor:pointer;">▼更新する</a>
+			</div>
+
+			<div id="open" style=@if(flash.get("open") != null){display:block;clear:both;}else{display:none;clear:both;}>
+				<!--ここの部分が折りたたまれる＆展開される部分-->
+				@form(routes.Mydata.update(mydata.userId)) {
+				    @inputText(userForm("userName"),'_label -> "名前")
+	        		@inputText(userForm("password"),'_label -> "パスワード")
+	        		@inputText(userForm("mail"),'_label -> "メールアドレス")
+					<input type="submit" value="更新">
+				}
+			</div>
+		</li>
+		<li>
+			<a href="/travel/history">履歴</a>
+		</li>
+	</ul>
+}

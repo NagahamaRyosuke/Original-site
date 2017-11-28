@@ -1,0 +1,40 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /	                        	controllers.Application.index()
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               	controllers.Assets.at(path="/public", file)
+
+# Travel
+GET     /travel      	            	controllers.Application.showTravel()
+
+POST    /travel               	    	controllers.Application.boxCreate()
+POST    /travel/new               		controllers.Application.travelCreate()
+POST    /travel/:id/edit            	controllers.Application.editTravel_box(id: Long)
+POST    /travel/:id/delete 	        	controllers.Application.deleteTravel_box(id: Long)
+POST    /travel/title         	    	controllers.Application.createTitle()
+GET    /travel/first         	    	controllers.Application.first()
+
+GET     /travel/registration        	controllers.Registration.registration()
+POST    /travel/registration  	    	controllers.Registration.createUser()
+
+GET     /travel/question        		controllers.Question.question()
+POST    /travel/question  	    		controllers.Question.createQuestion()
+
+GET     /travel/login					controllers.Login.login()
+POST    /travel/login					controllers.Login.doLogin()
+GET     /travel/logout					controllers.Login.logOut()
+
+GET     /travel/mydata					controllers.Mydata.mydata()
+POST    /travel/:id/updata				controllers.Mydata.update(id: Long)
+POST    /travel/:id/delete				controllers.Mydata.delete(id: Long)
+GET     /travel/history					controllers.Mydata.history()
+POST    /travel/:id/esithistory	       	controllers.Mydata.editHistory(id: Long)
+POST    /travel/:id/deletehistory      	controllers.Mydata.deleteHistory(id: Long)
+POST    /travel/newhistory        		controllers.Mydata.clear()
+POST    /travel/:id/mytravel			controllers.Mydata.myTravel(id: Long)
+GET     /travel/sample					controllers.Mydata.sampleTravel()
+

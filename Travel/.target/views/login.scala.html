@@ -1,0 +1,23 @@
+@import helper._
+
+@main("Login") {
+
+    <h2>Login</h2>
+
+	@if(session.get("userId")  == null){
+	    <form action="@routes.Login.doLogin" method="POST">
+			name:<input type="text" name="userName" required /><br>
+			password:<input type="password" name="password" required />
+			<input type="submit" value="login" />
+		</form>
+	} else {
+		<form action="@routes.Login.logOut" method="POST">
+			<input type="submit" value="loginOut" />
+		</form>
+		<a href="/travel/mydata">会員情報</a>
+	}
+
+	@if(flash.get("message") != null){
+		<p>@flash.get("message")</p>
+	}
+}

@@ -1,0 +1,41 @@
+@(mydata: User, userForm:Form[User])
+@import helper._
+
+@main("Mydata") {
+
+    <h2>Mydata</h2>
+
+	<table border>
+		<tr>
+        	<td>名前</td>
+            <td>@mydata.userName</td>
+		</tr>
+		<tr>
+			<td>パスワード</td>
+			<td>@mydata.password</td>
+		</tr>
+		<tr>
+			<td>メールアドレス</td>
+			<td>@mydata.mail</td>
+		</tr>
+	</table>
+
+	<ul>
+		<li>
+			@form(routes.Mydata.update(mydata.userId)) {
+			    @inputText(userForm("userName"))
+        		@inputText(userForm("password"))
+        		@inputText(userForm("mail"))
+				<input type="submit" value="更新">
+			}
+		</li>
+		<li>
+			@form(routes.Mydata.delete(mydata.userId)) {
+	            <input type="submit" value="削除">
+	        }
+		</li>
+		<li>
+			<a href="/travel/history">履歴</a>
+		</li>
+	</ul>
+}

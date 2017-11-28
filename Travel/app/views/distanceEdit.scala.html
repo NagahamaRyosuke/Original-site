@@ -1,0 +1,133 @@
+@(Travel_box: List[Travel_box], travelForm: Form[Travel_box], title: String, disForm: Form[Distance])
+@* 引数の受け取り *@
+@import helper._
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Edit</title>
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
+        <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+        <script src="@routes.Assets.at("javascripts/jquery-1.9.0.min.js")" type="text/javascript"></script>
+
+    </head>
+
+    <style type="text/css">
+		body{
+			width:700px;
+			margin-right: auto;
+			margin-left : auto;
+		}
+	</style>
+
+    <body>
+		<h1 align="center">旅のしおり</h1>
+
+	<p>
+	@form(routes.Application.createTitle()){
+		タイトル:<input type="text" name="distanceTitle" value="@title" placeholder="タイトルを入力"/>
+		<input type="submit" value="タイトルを変更する">
+	}
+	</p>
+
+   		@for(box <- Travel_box) {
+   		<table border>
+   			@form(routes.Application.editTravel_box(box.id)) {
+   			<tr>
+   				<td>
+   					日付
+   				</td>
+				<td>
+					<input type="text" name="date" value="@box.date" />
+				</td>
+   			</tr>
+   			<tr>
+   				<td>
+   					タイトル
+   				</td>
+   				<td>
+   					<input type="text" name="title" value="@box.title" />
+   				</td>
+   			</tr>
+   			<tr>
+   				<td>
+   					開始時間
+   				</td>
+   				<td>
+   					<input type="text" name="start_time" value="@box.start_time" />
+   				</td>
+   			</tr>
+   			<tr>
+   				<td>
+   					終了時間
+   				</td>
+   				<td>
+   					<input type="text" name="end_time" value="@box.end_time" />
+   				</td>
+   			</tr>
+   			<tr>
+   				<td>
+   					場所*
+   				</td>
+   				<td>
+   					<input type="text" name="place" value="@box.place" />
+   					@if(box.place == null || box.place.equals("")){
+   						入力してください
+   					}
+   				</td>
+   			</tr>
+   			</table>
+   			<input type="submit" value="更新">
+   			}
+   			@if(Travel_box.size() != 1){
+   				@form(routes.Application.deleteTravel_box(box.id)) {
+					<input type="submit" value="削除">
+				}
+   			}
+
+            <p>↓</p>
+        }
+
+		<div onclick="obj=document.getElementById('open').style; obj.display=(obj.display=='none')?'block':'none';">
+			<a style="cursor:pointer;">▼しおりに追加する</a>
+		</div>
+
+		<div id="open" style="display:none;clear:both;">
+		<!--ここの部分が折りたたまれる＆展開される部分-->
+		   @form(routes.Application.boxCreate()) {
+				@inputText(travelForm("date"),'_label -> "日付")
+		        @inputText(travelForm("title"),'_label -> "タイトル")
+		        @inputText(travelForm("start_time"),'_label -> "開始時間")
+		        @inputText(travelForm("end_time"),'_label -> "終了時間")
+				@inputText(travelForm("place"),'_label -> "場所")
+		        <input type="submit" value="追加する">
+		    }
+		    <small>最初の「場所」で地図を検索します。</small>
+		</div>
+
+    	<h2>end</h2>
+
+		@if(Travel_box.get(0).place != null && !Travel_box.get(0).place.equals("")){
+	    	@if(session.get("historyId") == null){
+	    		@form(routes.Application.travelCreate()){
+		    		<input type="submit" value="作成">
+		    	}
+	    	} else {
+	    		@form(routes.Mydata.clear()){
+		    		<input type="submit" value="更新">
+		    	}
+	    	}
+    	} else {
+    		@if(session.get("historyId") == null){
+	    		@form(routes.Application.travelCreate()){
+		    		<input type="submit" value="作成" disabled>
+		    	}
+	    	} else {
+	    		@form(routes.Mydata.clear()){
+		    		<input type="submit" value="更新" disabled>
+		    	}
+	    	}
+    	}
+    </body>
+</html>

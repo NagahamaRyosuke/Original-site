@@ -1,0 +1,21 @@
+@import helper._
+
+@main("Travel Home") {
+
+	<h4>旅のしおりを簡単に作成できるサイトです。</h4>
+	@if(session.get("userName") != null){
+		ようこそ @session.get("userName") さん<br>
+		@if(session.get("nowCreate") == null){
+			<a href="/travel/first">新規作成</a><br>
+		} else {
+			<a href="/travel">編集</a><br>
+		}
+		<a href="/travel/mydata">会員情報</a><br>
+		<a href="/travel/history">履歴</a>
+	} else {
+		ログインしてください<br>
+		<a href="/travel/login">ログイン</a><br>
+		<a href="/travel/registration">新規登録</a>
+	}
+
+}

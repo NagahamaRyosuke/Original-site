@@ -1,0 +1,55 @@
+@(title: String)(content: Html)
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>@title</title>
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
+        <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+        <script src="@routes.Assets.at("javascripts/jquery-1.9.0.min.js")" type="text/javascript"></script>
+
+    </head>
+    <style type="text/css">
+		body{
+			width:700px;
+			margin-right: auto;
+			margin-left : auto;
+		}
+	</style>
+
+    <body onload="initialize()">
+		<h1 align="center">旅のしおり</h1>
+    	<div class="contenar">
+    		<div class="row">
+    			<div class="content">
+    				@content
+    			</div>
+    		</div>
+    	</div>
+    	<ul>
+    		<li>
+    			<a href="/">top</a>
+    		</li>
+    		<li>
+    			<a href="/travel/sample">サンプル</a>
+    		</li>
+    		@if(session.get("userName") == null){
+	    		<li>
+	    			<a href="/travel/registration">新規会員登録</a>
+	    		</li>
+    		}
+    		<li>
+    			<a href="/travel/question">お問い合わせ</a>
+    		</li>
+    		<li>
+    			@if(session.get("userName") != null){
+    				<a href="/travel/logout">ログアウト</a>
+    			} else {
+    				<a href="/travel/login">ログイン</a>
+    			}
+    		</li>
+    	</ul>
+
+    </body>
+</html>

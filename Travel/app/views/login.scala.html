@@ -1,0 +1,16 @@
+@import helper._
+
+@main("Login") {
+
+    <h2>Login</h2>
+
+	<form action="@routes.Login.doLogin" method="POST">
+		name:<input type="text" name="userName" required /><br>
+		password:<input type="password" name="password" required />
+		<input type="submit" value="login" />
+	</form>
+
+	@if(flash.get("message") != null){
+		<p>@flash.get("message")</p>
+	}
+}

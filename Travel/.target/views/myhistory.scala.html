@@ -1,0 +1,24 @@
+@(distance: List[Distance])
+@import helper._
+
+@main("History") {
+
+    <h2>Myhistory</h2>
+
+	<ul>
+		@for(dis <- distance){
+			<li>
+				@dis.distanceId<br>
+				@dis.distanceTitle<br>
+				@form(routes.Mydata.editHistory(dis.distanceId)) {
+                    <input type="submit" value="更新">
+                }
+                @form(routes.Mydata.myTravel(dis.distanceId)) {
+                    <input type="submit" value="表示">
+                }
+			</li>
+		}
+	</ul>
+
+
+}
